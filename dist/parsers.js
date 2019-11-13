@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const common_1 = require("./common");
 const readers_1 = require("./readers");
 exports.createParserContext = (buffer, offset = 0) => (Object.assign(Object.assign({}, common_1.createContext(buffer)), { offset, values: {} }));
-exports.reduceBuffer = (fn, buffer, offset = 0) => fn(exports.createParserContext(buffer, offset)).values;
+exports.parse = (fn) => (buffer, offset = 0) => fn(exports.createParserContext(buffer, offset)).values;
 exports.applyValue = ([value, length]) => (prop) => (context) => (Object.assign(Object.assign({}, context), { offset: context.offset + length, values: Object.assign(Object.assign({}, context.values), { [prop]: value }) }));
 exports.applyArrayValue = (prop) => (parentContext) => (context) => (Object.assign(Object.assign({}, context), { values: Object.assign(Object.assign({}, parentContext.values), { [prop]: typeof parentContext.values[prop] === 'undefined'
             || !Array.isArray(parentContext.values[prop])
@@ -48,3 +48,8 @@ exports.repeatToEnd = (fn) => (prop) => exports.sequence(exports.push(fn)(prop),
 exports.clear = (context) => (Object.assign(Object.assign({}, context), { values: {} }));
 exports.use = (handler) => (context) => handler(context.values)(context);
 exports.when = (value) => (cases) => { var _a; return (_a = cases) === null || _a === void 0 ? void 0 : _a[value]; };
+exports.log = (handler) => (context) => {
+    console.log(handler(context));
+    return context;
+};
+exports.logProp = (prop) => exports.log(ctx => `${prop}: ${ctx.values[prop]} [${ctx.offset}]`);

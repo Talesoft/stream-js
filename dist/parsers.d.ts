@@ -5,7 +5,7 @@ export interface ParserContext<T> extends Context {
 }
 export declare type ParseFunction<T> = (context: ParserContext<T>) => ParserContext<T>;
 export declare const createParserContext: <T>(buffer: ArrayBuffer, offset?: number) => ParserContext<T>;
-export declare const reduceBuffer: <T>(fn: ParseFunction<T>, buffer: ArrayBuffer, offset?: number) => Partial<T>;
+export declare const parse: <T>(fn: ParseFunction<T>) => (buffer: ArrayBuffer, offset?: number) => Partial<T>;
 export declare const applyValue: <T, K extends keyof T = keyof T>([value, length]: ValueLengthTuple<T[K]>) => (prop: K) => (context: ParserContext<T>) => ParserContext<T>;
 export declare const applyArrayValue: <T, V = T>(prop: keyof T) => (parentContext: ParserContext<T>) => (context: ParserContext<V>) => ParserContext<T>;
 export declare const readValue: (fn: ReadFunction<any>) => <T>(prop: keyof T) => (context: ParserContext<T>) => ParserContext<T>;
@@ -47,3 +47,5 @@ export declare const repeatToEnd: <V>(fn: ParseFunction<V>) => <T>(prop: keyof T
 export declare const clear: <T>(context: ParserContext<T>) => ParserContext<T>;
 export declare const use: <T>(handler: (values: T) => ParseFunction<T>) => (context: ParserContext<T>) => ParserContext<T>;
 export declare const when: <V extends string | number | symbol>(value: V) => <T>(cases: { [K in V]: ParseFunction<any>; }) => ParseFunction<T> | undefined;
+export declare const log: <T>(handler: (context: ParserContext<T>) => string) => (context: ParserContext<T>) => ParserContext<T>;
+export declare const logProp: <T>(prop: keyof T) => (context: ParserContext<T>) => ParserContext<T>;

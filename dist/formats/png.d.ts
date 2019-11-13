@@ -1,9 +1,14 @@
-export interface PngChunkDataBase {
+export interface PngChunkBase {
     length: number;
     crc: number;
 }
-export interface PngIhdrChunkData extends PngChunkDataBase {
-    type: 'IDAT';
+export interface PngRgbValue {
+    red: number;
+    green: number;
+    blue: number;
+}
+export interface PngHeader extends PngChunkBase {
+    type: 'ihdr';
     width: number;
     height: number;
     bitDepth: number;
@@ -12,21 +17,30 @@ export interface PngIhdrChunkData extends PngChunkDataBase {
     filterMethod: number;
     interlaceMethod: number;
 }
-export interface PngGenericChunkData extends PngChunkDataBase {
+export interface PngPhysicalDimensions extends PngChunkBase {
+    type: 'phys';
+    x: number;
+    y: number;
+    unit: number;
+}
+export interface PngPalette extends PngChunkBase {
+    type: 'plte';
+    entries: PngRgbValue[];
+}
+export interface PngGenericChunk extends PngChunkBase {
     type: string;
     data: ArrayBuffer[];
 }
-export declare type PngChunkData = PngIhdrChunkData | PngGenericChunkData;
-export interface PngData {
+export declare type PngChunk = PngHeader | PngGenericChunk;
+export interface Png {
     bitCheck: number;
     magicHeader: string;
-    chunks: PngChunkData[];
+    chunks: PngChunk[];
 }
-export declare const parsePngIhdrChunk: (context: import("../stream").ParserContext<PngIhdrChunkData>) => import("../stream").ParserContext<PngIhdrChunkData>;
-export declare const parsePngGenericChunk: (length: number) => (context: import("../stream").ParserContext<{
-    data: any;
-}>) => import("../stream").ParserContext<{
-    data: any;
-}>;
-export declare const parsePngChunk: (context: import("../stream").ParserContext<PngChunkData>) => import("../stream").ParserContext<PngChunkData>;
-export declare const parsePng: (context: import("../stream").ParserContext<PngData>) => import("../stream").ParserContext<PngData>;
+export declare const pngRgbValue: (context: import("../parsers").ParserContext<PngRgbValue>) => import("../parsers").ParserContext<PngRgbValue>;
+export declare const pngHeader: (context: import("../parsers").ParserContext<PngHeader>) => import("../parsers").ParserContext<PngHeader>;
+export declare const pngPalette: (context: import("../parsers").ParserContext<PngPalette>) => import("../parsers").ParserContext<PngPalette>;
+export declare const pngPhysicalDimensions: (context: import("../parsers").ParserContext<PngPhysicalDimensions>) => import("../parsers").ParserContext<PngPhysicalDimensions>;
+export declare const pngGenericChunk: (length: number) => (context: import("../parsers").ParserContext<PngGenericChunk>) => import("../parsers").ParserContext<PngGenericChunk>;
+export declare const pngChunk: (context: import("../parsers").ParserContext<PngChunk>) => import("../parsers").ParserContext<PngChunk>;
+export declare const png: (context: import("../parsers").ParserContext<Png>) => import("../parsers").ParserContext<Png>;

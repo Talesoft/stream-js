@@ -12,13 +12,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const fs_1 = require("fs");
 const path_1 = require("path");
 const png_1 = require("./formats/png");
-const stream_1 = require("./stream");
+const parsers_1 = require("./parsers");
 const { readFile } = fs_1.promises;
 const path = process.argv[2];
 function main() {
     return __awaiter(this, void 0, void 0, function* () {
         const buffer = yield readFile(path_1.resolve(process.cwd(), path));
-        const pngData = stream_1.reduceBuffer(png_1.parsePng, buffer);
+        const pngData = parsers_1.parse(png_1.png)(buffer);
         console.log(pngData);
     });
 }
