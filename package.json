@@ -42,19 +42,27 @@
         "watch": "tsc --watch",
         "test": "jest",
         "test:coverage": "jest --coverage",
-        "lint": "tslint --project tsconfig.json 'src/**/*.ts'",
-        "lint:fix": "tslint --project tsconfig.json 'src/**/*.ts' --fix"
+        "lint": "eslint",
+        "lint:fix": "eslint --fix"
     },
     "dependencies": {
         "@talesoft/event": "^0.1.0",
         "@types/cookie": "^0.3.3",
         "@types/node": "^12.12.6",
         "@types/path-to-regexp": "^1.7.0",
+        "@types/ramda": "^0.26.36",
+        "@typescript-eslint/eslint-plugin": "^2.8.0",
+        "@typescript-eslint/parser": "^2.8.0",
         "buffer": "^5.4.3",
         "cookie": "^0.4.0",
+        "eslint": "^6.6.0",
+        "eslint-config-prettier": "^6.7.0",
+        "eslint-plugin-prettier": "^3.1.1",
         "fs": "0.0.1-security",
         "path": "^0.12.7",
         "path-to-regexp": "^3.1.0",
+        "prettier": "^1.19.1",
+        "ramda": "^0.26.1",
         "stream": "0.0.2",
         "url": "^0.11.0"
     },
@@ -64,7 +72,6 @@
         "jest": "^24.9.0",
         "jest-each": "^24.9.0",
         "ts-jest": "^24.1.0",
-        "tslint": "^5.20.0",
         "tslint-config-airbnb": "^5.11.1",
         "typescript": "^3.7.2"
     }
